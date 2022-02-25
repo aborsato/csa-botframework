@@ -1,0 +1,150 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "ClaimsBot",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item",
+            "comment": "For each member added to the conversation."
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else",
+                "comment": "Checks that that member added ID does not match the bot ID. This prevents the greeting message from being sent when the bot is added to a conversation."
+              },
+              "condition": "=string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "859266",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_Greeting()}"
+                }
+              ]
+            }
+          ],
+          "value": "dialog.foreach.value",
+          "index": "dialog.foreach.index"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "kMjqz1",
+            "comment": "It is recommended to show a message to the user when the bot does not know how to handle an incoming activity and provide follow up options or a help message."
+          },
+          "activity": "${SendActivity_DidNotUnderstand()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "i6dBZd",
+        "name": "ClaimStatus"
+      },
+      "intent": "ClaimStatus",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Fn7MUD"
+          },
+          "activityProcessed": true,
+          "dialog": "ClaimStatus"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "xWhmGf",
+        "name": "Cancel"
+      },
+      "intent": "Cancel",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ytBHuS"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelDialog"
+        }
+      ],
+      "condition": "=#Cancel.Score >= 0.8"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "epLQqG",
+        "name": "Help"
+      },
+      "intent": "Help",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lNE5qA"
+          },
+          "activityProcessed": true,
+          "dialog": "HelpDialog"
+        }
+      ],
+      "condition": "=#Help.Score >= 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "d04Zao",
+        "name": "Handoff"
+      },
+      "intent": "Handoff",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendHandoffActivity",
+          "$designer": {
+            "id": "eF5xn8"
+          },
+          "context": {
+            "timeZone": "CST",
+            "userId": "alanborsato@microsoft.com",
+            "emailId": "alanborsato"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ClaimsBot.lg",
+  "id": "ClaimsBot",
+  "recognizer": "ClaimsBot.lu.qna"
+}

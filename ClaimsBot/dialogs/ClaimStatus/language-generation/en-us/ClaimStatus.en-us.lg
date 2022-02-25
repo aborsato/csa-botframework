@@ -1,0 +1,51 @@
+[import](common.lg)
+
+# SendActivity_v2BTBE()
+[Activity
+    Text = ${SendActivity_v2BTBE_text()}
+]
+
+# SendActivity_v2BTBE_text()
+- Let's check the status of your Claim.
+# TextInput_Prompt_0TKpJr()
+[Activity
+    Text = ${TextInput_Prompt_0TKpJr_text()}
+]
+
+# TextInput_Prompt_0TKpJr_text()
+- What is your Insurance ID?
+# TextInput_UnrecognizedPrompt_0TKpJr()
+[Activity
+    Text = ${TextInput_UnrecognizedPrompt_0TKpJr_text()}
+]
+
+# TextInput_UnrecognizedPrompt_0TKpJr_text()
+- Sorry, I do not understand '${this.value}'. Please specify a 5 digit Insurance ID in the format 12345.
+# TextInput_InvalidPrompt_0TKpJr()
+[Activity
+    Text = ${TextInput_InvalidPrompt_0TKpJr_text()}
+]
+
+# TextInput_InvalidPrompt_0TKpJr_text()
+- Sorry, '${this.value}' is not valid. I'm looking for a 5 digit number as Insurance ID. Please specify a 5 digit in the format 12345.
+# SendActivity_SJqrue()
+[Activity
+    Text = ${SendActivity_SJqrue_text()}
+    Attachments = ${SendActivity_SJqrue_attachment_hBdtee()}
+]
+
+# SendActivity_yLfp1m()
+[Activity
+    Text = ${SendActivity_yLfp1m_text()}
+]
+
+# SendActivity_yLfp1m_text()
+- Something went wrong: ${dialog.api_response.content.message}.
+# SendActivity_SJqrue_attachment_hBdtee()
+[ThumbnailCard
+  title = Status of Claim
+  text = The status of the Claim is "${dialog.status}", as of ${dialog.lastUpdate}.
+  image = https://img.icons8.com/external-flatart-icons-flat-flatarticons/344/external-health-care-health-care-and-medical-flatart-icons-flat-flatarticons.png
+]
+# SendActivity_SJqrue_text()
+- Thank you! Here is the status of your claim:
