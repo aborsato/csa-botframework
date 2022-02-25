@@ -1,0 +1,17 @@
+{
+  "ClaimsBot.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "ClaimStatus": [
+        "ClaimStatus.en-us"
+      ],
+      "Cancel": [
+        "CancelDialog.en-us"
+      ],
+      "Help": [
+        "HelpDialog.en-us"
+      ],
+      "Handoff": ""
+    }
+  }
+}

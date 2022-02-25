@@ -1,0 +1,28 @@
+
+# Cancel
+- cancel
+- please cancel
+- stop that
+- good bye
+
+# Help
+- help
+- I need help
+- please help me
+- can you help
+
+# ClaimStatus
+> add some example phrases to trigger this intent:
+- get claim
+- claim
+- check my claim
+- status of claim
+
+> entity definitions:
+> Define an Insurance ID entity. Any time LUIS sees a five digit number, it will flag it as 'Insurance ID' entity.
+$ insuranceId:/[0-9]{5}/
+
+# Handoff
+- speak to a human
+- talk to a person
+- handoff

@@ -1,0 +1,120 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LuCl4S",
+    "name": "GetClaimStatus",
+    "comment": "Get the status of a claim."
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ZSvOEL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "v2BTBE"
+          },
+          "activity": "${SendActivity_v2BTBE()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "duLUf8"
+          },
+          "property": "user.insuranceId",
+          "value": "=@insuranceId"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "0TKpJr"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_0TKpJr()}",
+          "unrecognizedPrompt": "${TextInput_UnrecognizedPrompt_0TKpJr()}",
+          "invalidPrompt": "${TextInput_InvalidPrompt_0TKpJr()}",
+          "property": "user.insuranceId",
+          "outputFormat": "=trim(this.value)",
+          "validations": [
+            "length(this.value) == 5"
+          ],
+          "defaultValue": "00000"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "aIUVsX"
+          },
+          "resultProperty": "dialog.api_response",
+          "method": "POST",
+          "url": "https://botsrvdemoclaim01.azurewebsites.net/api/Claims",
+          "body": {
+            "insuranceId": "${user.insuranceId}"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "uOVHty"
+          },
+          "condition": "=dialog.api_response.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "UuxOPD"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.status",
+                  "value": "=dialog.api_response.content.status"
+                },
+                {
+                  "property": "dialog.lastUpdate",
+                  "value": "=dialog.api_response.content.lastUpdate"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "SJqrue"
+              },
+              "activity": "${SendActivity_SJqrue()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "yLfp1m"
+              },
+              "activity": "${SendActivity_yLfp1m()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "qLWMyz"
+          },
+          "property": "user.insuranceId"
+        }
+      ]
+    }
+  ],
+  "generator": "ClaimStatus.lg",
+  "recognizer": "ClaimStatus.lu.qna",
+  "id": "ClaimStatus"
+}
